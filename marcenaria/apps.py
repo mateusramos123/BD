@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class MercenariaConfig(AppConfig):
+class MarcenariaConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'mercenaria'
+    name = 'marcenaria'
