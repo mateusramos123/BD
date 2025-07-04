@@ -9,7 +9,7 @@ class Cliente (models.Model):
     telefone_cliente = models.CharField(max_length=45)
 
     def __str__(self):
-        return f'{self.nome_cliente}'
+        return f'{self.nome_cliente} (CPF: {self.cpf_cliente})'
 
 
 class Pedido (models.Model):
@@ -21,7 +21,7 @@ class Pedido (models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT)
 
     def __str__(self):
-       return f'Pedido {self.id_pedido} - Cliente {self.cliente}'
+       return f'Pedido: {self.id_pedido} - {self.cliente} - {self.data_pedido}'
 
 class Produto (models.Model):
     id_produto = models.AutoField(primary_key=True)
@@ -31,27 +31,28 @@ class Produto (models.Model):
     estoque_produto = models.IntegerField()
     
     def __str__(self):
-       return f'Produto {self.nome_produto} - Valor {self.valor_produto}'
+       return f'Produto: {self.nome_produto} - (R$ {self.valor_produto})'
     
     
 class Item_Pedido (models.Model):
-     id_item_pedido = models.AutoField(primary_key=True)
-     pedido_id_pedido = models.ForeignKey(Pedido, on_delete=models.PROTECT)
-     produto_id_produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
-     quantidade_item_pedido = models.IntegerField() 
+    id_item_pedido = models.AutoField(primary_key=True)
+    pedido_id_pedido = models.ForeignKey(Pedido, on_delete=models.PROTECT)
+    produto_id_produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
+    quantidade_item_pedido = models.IntegerField() 
 
-     def __str__(self):
-         return f'ItemPedido #{self.id_item_pedido} - Pedido {self.pedido_id_pedido}, Produto {self.produto_id_produto}, Quantidade {self.quantidade_item_pedido}'
+    def __str__(self):
+        return f'Item #{self.id_item_pedido} - Pedido {self.pedido_id_pedido}, Produto {self.produto_id_produto} - Quantidade {self.quantidade_item_pedido}'
      
 
-class Materia_Prima (models.Model):
-     id_materia = models.AutoField(primary_key=True)
-     nome_materia = models.CharField(max_length=45)
-     descricao_materia = models.CharField(max_length=150)
-     estoque_materia = models.IntegerField()
-      
-     def __str__(self):
-         return f'Matéria {self.nome_materia} - Estoque {self.estoque_materia}' 
+class Materia_Prima(models.Model):
+    id_materia = models.AutoField(primary_key=True)
+    nome_materia = models.CharField(max_length=45)
+    descricao_materia = models.CharField(max_length=150)
+    estoque_materia = models.IntegerField()
+
+    def __str__(self):
+        return f'Matéria: {self.nome_materia} - Estoque: {self.estoque_materia}'
+ 
 
 
 class Produto_has_materia_prima (models.Model):
@@ -71,7 +72,7 @@ class Funcionario (models.Model):
     email_funcionario = models.EmailField(max_length=45, unique= True)
 
     def __str__(self):
-        return f'Funcionário: {self.nome_funcionario} - Email: {self.email_funcionario}'
+        return f' {self.nome_funcionario} - {self.email_funcionario}'
     
 
 class Ordem_Producao (models.Model):
@@ -82,4 +83,4 @@ class Ordem_Producao (models.Model):
     quantidade_produto = models.IntegerField()
     
     def __str__(self):
-        return f'Quantidade: {self.quantidade_produto}'
+        return f'Ordem: {self.id_ordem_producao} - Produto: {self.produto_id_produto.nome_produto} - Quantidade: {self.quantidade_produto}'
